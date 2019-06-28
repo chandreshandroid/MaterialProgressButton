@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressButton">
+
+
+        <attr name="p_progressColor" format="color"/>
+        <attr name="p_progressBGColor" format="color"/>
+        <attr name="p_arrowVisible" format="boolean"/>
+
+
+      <attr name="p_text" format="string"/>
+        <attr name="p_capsText" format="boolean"/>
+        <attr name="p_textColor" format="color"/>
+        <attr name="p_bgColor" format="color"/>
+        <attr name="p_style" format="enum">
+            <enum name="circleBar" value="0"/>
+            <enum name="progressBar" value="1"/>
+
+        </attr>
+        <attr name="p_textSize" format="dimension"/>
+        <attr name="p_backgroundTint" format="color"/>
+        <attr name="p_backgroundTintMode" format="color"/>
+        <attr name="p_elevation" format="float"/>
+        <attr name="p_icon" format="reference"/>
+        <attr name="p_iconSize" format="dimension"/>
+        <attr name="p_iconPadding" format="dimension"/>
+
+        <attr name="p_iconGravity">
+            <flag name="start" value="1"/>
+            <flag name="textStart" value="2"/>
+            <flag name="end" value="3"/>
+            <flag name="textEnd" value="4"/>
+        </attr>
+        <attr name="p_iconTint" format="color"/>
+        <attr name="p_strokeColor" format="color"/>
+        <attr name="p_rippleColor" format="color"/>
+        <attr name="p_strokeWidth" format="dimension"/>
+        <attr name="p_cornerRadius" format="dimension"/>
+        <attr name="p_fontFamily" format="string"/>
+        <attr name="p_layoutDirection" format="enum">
+            <enum name="ltr" value="0"/>
+            <enum name="rtl" value="1"/>
+
+        </attr>
+
+
+
+    </declare-styleable>
+
+</resources>
