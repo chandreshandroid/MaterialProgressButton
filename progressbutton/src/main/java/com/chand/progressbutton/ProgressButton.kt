@@ -442,8 +442,9 @@ class ProgressButton @JvmOverloads constructor(
 
 
         val contextWrapper = ContextThemeWrapper(context, R.style.ProgressTheme)
-        progressButton = MaterialButton(contextWrapper)
+        progressButton = MaterialButton(contextWrapper,null,R.style.Widget_MaterialComponents_Button_OutlinedButton)
         progressButton?.gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
+  
 
 
         val barParams =
