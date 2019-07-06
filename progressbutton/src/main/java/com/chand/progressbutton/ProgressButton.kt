@@ -9,10 +9,6 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.ContextThemeWrapper
-import android.view.Display
-import android.view.Gravity
-import android.view.View
 import android.widget.FrameLayout
 
 import android.widget.ProgressBar
@@ -22,6 +18,11 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import androidx.core.content.res.ResourcesCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import android.opengl.ETC1.getHeight
+import android.view.*
+import android.opengl.ETC1.getHeight
+
+
 
 
 class ProgressButton @JvmOverloads constructor(
@@ -213,8 +214,7 @@ class ProgressButton @JvmOverloads constructor(
     var topPadding = 0
     var rightPadding = 0
     var bottomPadding = 0
-    var parentWidth = 0
-    var parentHeight = 0
+
     private var style = Style.circleBar
 
     private var layoutDirection = LayoutDirection.ltr
@@ -312,12 +312,20 @@ class ProgressButton @JvmOverloads constructor(
 
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+/*    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val parentWidth = MeasureSpec.getSize(widthMeasureSpec)
+        val parentHeight =MeasureSpec.getSize(heightMeasureSpec)
+        this.setMeasuredDimension(parentWidth, parentHeight)
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        setMeasuredDimension(measuredWidth + dp2px(3.5f) * 2, measuredHeight + dp2px(3.5f) * 2)
 
-    }
+        this.postDelayed ({
+            setSizeView()
+        },100)
+
+    }*/
+
+
 
     fun setOnAnimationListener(animationListener: AnimationListener) {
         this.animationListener = animationListener
@@ -326,8 +334,9 @@ class ProgressButton @JvmOverloads constructor(
 
     private fun setSizeView() {
 
-        parentWidth = width
-        parentHeight = height
+       this.post{
+
+
         leftPadding = paddingLeft
         rightPadding = paddingRight
         topPadding = paddingTop
@@ -335,7 +344,9 @@ class ProgressButton @JvmOverloads constructor(
 
 
         setPadding(0, 0, 0, 0)
-        val barParams = FrameLayout.LayoutParams(parentWidth, parentHeight)
+
+        val barParams = FrameLayout.LayoutParams((width).toInt(), (height).toInt())
+
 
         barParams.gravity = Gravity.CENTER
 
@@ -344,7 +355,7 @@ class ProgressButton @JvmOverloads constructor(
         progressButton?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
 
 
-        val barParams1 = FrameLayout.LayoutParams((parentHeight * 0.80).toInt(), (parentHeight * 0.80).toInt())
+        val barParams1 = FrameLayout.LayoutParams((height * 0.80).toInt(), (height * 0.80).toInt())
         barParams1.gravity = Gravity.CENTER
         mCircleView?.layoutParams = barParams1
         contentLoadingProgressBar?.layoutParams = barParams1
@@ -353,10 +364,41 @@ class ProgressButton @JvmOverloads constructor(
         contentLoadingProgressBar?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
 
 
-        if (parentHeight > dp2px(75.0f))
+        if (height > dp2px(75.0f))
             mProgress?.setStyle(CircularProgressDrawable.LARGE)
+
+        }
+        addOnLayoutChangeListener(object:View.OnLayoutChangeListener{
+            override fun onLayoutChange(
+                v: View?,
+                left: Int,
+                top: Int,
+                right: Int,
+                bottom: Int,
+                oldLeft: Int,
+                oldTop: Int,
+                oldRight: Int,
+                oldBottom: Int
+            ) {
+                // Preventing extra work because method will be called many times.
+                if(height == (bottom - top))
+                    return;
+
+
+                  setSizeView()
+
+            }
+        } )
+
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+
+            setSizeView()
+
+
+    }
 
     private fun createCircleProgressView() {
         mCircleView = CircleImageView(context, progressBGColor)
@@ -405,7 +447,7 @@ class ProgressButton @JvmOverloads constructor(
 
 
         val barParams =
-            FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp2px(50f))
+            FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         barParams.gravity = Gravity.CENTER
         progressButton?.layoutParams = barParams
         addView(progressButton)

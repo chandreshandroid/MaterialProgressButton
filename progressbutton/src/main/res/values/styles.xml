@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns2="http://schemas.android.com/apk/res-auto">
-    <style name="ProgressTheme" parent="Theme.AppCompat">
+    <style name="ProgressTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!-- Original AppCompat attributes. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -33,6 +33,7 @@
         <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
         <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/AppShapeAppearance.MediumComponent</item>
+        <item name="buttonStyle">@style/s</item>
     </style>
     <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
