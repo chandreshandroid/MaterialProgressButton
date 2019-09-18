@@ -21,6 +21,11 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import android.opengl.ETC1.getHeight
 import android.view.*
 import android.opengl.ETC1.getHeight
+import androidx.core.os.HandlerCompat.postDelayed
+
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 
 
@@ -288,6 +293,8 @@ class ProgressButton @JvmOverloads constructor(
 
 
         yourListener = View.OnClickListener {
+            avoidDoubleClicks(it)
+
             performClick()
         }
 
@@ -585,6 +592,15 @@ class ProgressButton @JvmOverloads constructor(
 
    private enum class LayoutDirection {
         ltr, rtl
+    }
+
+    fun avoidDoubleClicks(view: View) {
+        val DELAY_IN_MS: Long = 900
+        if (!view.isClickable) {
+            return
+        }
+        view.isClickable = false
+        view.postDelayed({ view.isClickable = true }, DELAY_IN_MS)
     }
 
     interface AnimationListener {
