@@ -290,11 +290,9 @@ class ProgressButton @JvmOverloads constructor(
 
 
 
-
-
         yourListener = View.OnClickListener {
             avoidDoubleClicks(it)
-
+            if(it.isClickable)
             performClick()
         }
 
