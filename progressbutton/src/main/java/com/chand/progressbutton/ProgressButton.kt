@@ -17,17 +17,14 @@ import androidx.core.content.ContextCompat
 
 import com.google.android.material.button.MaterialButton
 import androidx.core.content.res.ResourcesCompat
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+
 import android.opengl.ETC1.getHeight
 import android.view.*
 import android.opengl.ETC1.getHeight
 import androidx.core.os.HandlerCompat.postDelayed
 
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
-
-
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 
 
 class ProgressButton @JvmOverloads constructor(
@@ -292,7 +289,7 @@ class ProgressButton @JvmOverloads constructor(
 
         yourListener = View.OnClickListener {
             avoidDoubleClicks(it)
-            if(it.isClickable)
+            if(it.isClickable )
             performClick()
         }
 
@@ -317,18 +314,20 @@ class ProgressButton @JvmOverloads constructor(
 
     }
 
-/*    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val parentWidth = MeasureSpec.getSize(widthMeasureSpec)
-        val parentHeight =MeasureSpec.getSize(heightMeasureSpec)
-        this.setMeasuredDimension(parentWidth, parentHeight)
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
 
-        this.postDelayed ({
-            setSizeView()
-        },100)
 
-    }*/
+        this.postDelayed ({
+       if(initialWidth==0)
+           initialWidth =parentWidth
+
+        },50)
+
+    }
 
 
 

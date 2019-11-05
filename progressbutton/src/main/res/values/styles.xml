@@ -31,20 +31,9 @@
         <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
         <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
         <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
-        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/AppShapeAppearance.MediumComponent</item>
 
     </style>
-    <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">8dp</item>
-    </style>
-    <style name="AppShapeAppearance.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">8dp</item>
 
-
-    </style>
    <style name="s" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="enforceMaterialTheme">true</item>
         <item name="enforceTextAppearance">true</item>
@@ -66,6 +55,6 @@
         <item name="iconTint">@color/mtrl_btn_text_color_selector</item>
         <item name="rippleColor">@color/mtrl_btn_ripple_color</item>
         <item name="backgroundTint">@color/mtrl_btn_bg_color_selector</item>
-        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
+
     </style>
 </resources>
