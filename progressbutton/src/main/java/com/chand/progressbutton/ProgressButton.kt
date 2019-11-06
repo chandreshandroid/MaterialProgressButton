@@ -25,6 +25,8 @@ import androidx.core.os.HandlerCompat.postDelayed
 
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.os.SystemClock
 
 
 class ProgressButton @JvmOverloads constructor(
@@ -41,6 +43,7 @@ class ProgressButton @JvmOverloads constructor(
     var isStartAnim = false
     private var initialWidth: Int = 0
     private var finalWidth: Int = 0
+    private var  mLastClickTime: Long = 0
     var progressText: String? = null
         set(value) {
             field = value
@@ -209,7 +212,7 @@ class ProgressButton @JvmOverloads constructor(
     internal var animationListener: AnimationListener? = null
 
     internal var animator: ValueAnimator? = null
-    internal var yourListener: View.OnClickListener? = null
+
 
     var leftPadding = 0
 
@@ -259,12 +262,12 @@ class ProgressButton @JvmOverloads constructor(
         this.textColor = pa.getColor(R.styleable.ProgressButton_p_textColor, Color.BLACK)
         this.backgroundTint = pa.getColor(
             R.styleable.ProgressButton_p_backgroundTint,
-          ContextCompat.getColor(context,R.color.colorSecondaryVariant)
+            ContextCompat.getColor(context,R.color.colorSecondaryVariant)
         )
         this.iconTint = pa.getColor(R.styleable.ProgressButton_p_iconTint, Color.WHITE)
         this.strokeColor = pa.getColor(
             R.styleable.ProgressButton_p_strokeColor,
-          ContextCompat.getColor(context,android.R.color.transparent)
+            ContextCompat.getColor(context,android.R.color.transparent)
         )
         this.rippleColor = pa.getColor(
             R.styleable.ProgressButton_p_rippleColor,
@@ -287,15 +290,19 @@ class ProgressButton @JvmOverloads constructor(
 
 
 
-        yourListener = View.OnClickListener {
-            avoidDoubleClicks(it)
-            if(it.isClickable )
-            performClick()
+
+
+        progressButton?.setOnClickListener{
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime()
+            this@ProgressButton.post {
+                this@ProgressButton.performClick()
+            }
+
         }
-
-        progressButton?.setOnClickListener(yourListener)
         this.post {
-
             setSizeView()
         }
         progressButton?.post {
@@ -314,7 +321,7 @@ class ProgressButton @JvmOverloads constructor(
 
     }
 
-   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val parentWidth = MeasureSpec.getSize(widthMeasureSpec)
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -322,8 +329,8 @@ class ProgressButton @JvmOverloads constructor(
 
 
         this.postDelayed ({
-       if(initialWidth==0)
-           initialWidth =parentWidth
+            if(initialWidth==0)
+                initialWidth =parentWidth
 
         },50)
 
@@ -338,38 +345,38 @@ class ProgressButton @JvmOverloads constructor(
 
     private fun setSizeView() {
 
-       this.post{
+        this.post{
 
 
-        leftPadding = paddingLeft
-        rightPadding = paddingRight
-        topPadding = paddingTop
-        bottomPadding = paddingBottom
+            leftPadding = paddingLeft
+            rightPadding = paddingRight
+            topPadding = paddingTop
+            bottomPadding = paddingBottom
 
 
-        setPadding(0, 0, 0, 0)
+            setPadding(0, 0, 0, 0)
 
-        val barParams = FrameLayout.LayoutParams((width).toInt(), (height).toInt())
-
-
-        barParams.gravity = Gravity.CENTER
-
-        progressButton?.layoutParams = barParams
-
-        progressButton?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
+            val barParams = FrameLayout.LayoutParams((width).toInt(), (height).toInt())
 
 
-        val barParams1 = FrameLayout.LayoutParams((height * 0.80).toInt(), (height * 0.80).toInt())
-        barParams1.gravity = Gravity.CENTER
-        mCircleView?.layoutParams = barParams1
-        contentLoadingProgressBar?.layoutParams = barParams1
+            barParams.gravity = Gravity.CENTER
 
-        mCircleView?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
-        contentLoadingProgressBar?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
+            progressButton?.layoutParams = barParams
+
+            progressButton?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
 
 
-        if (height > dp2px(75.0f))
-            mProgress?.setStyle(CircularProgressDrawable.LARGE)
+            val barParams1 = FrameLayout.LayoutParams((height * 0.80).toInt(), (height * 0.80).toInt())
+            barParams1.gravity = Gravity.CENTER
+            mCircleView?.layoutParams = barParams1
+            contentLoadingProgressBar?.layoutParams = barParams1
+
+            mCircleView?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
+            contentLoadingProgressBar?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
+
+
+            if (height > dp2px(75.0f))
+                mProgress?.setStyle(CircularProgressDrawable.LARGE)
 
         }
         addOnLayoutChangeListener(object:View.OnLayoutChangeListener{
@@ -389,7 +396,7 @@ class ProgressButton @JvmOverloads constructor(
                     return;
 
 
-                  setSizeView()
+                setSizeView()
 
             }
         } )
@@ -399,7 +406,7 @@ class ProgressButton @JvmOverloads constructor(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
-            setSizeView()
+        setSizeView()
 
 
     }
@@ -407,10 +414,10 @@ class ProgressButton @JvmOverloads constructor(
     private fun createCircleProgressView() {
         mCircleView = CircleImageView(context, progressBGColor)
 
-            mProgress = CircularProgressDrawable(context)
-            mProgress?.setColorSchemeColors(progressColor)
-            mProgress?.setStyle(CircularProgressDrawable.DEFAULT)
-            mCircleView?.setImageDrawable(mProgress)
+        mProgress = CircularProgressDrawable(context)
+        mProgress?.setColorSchemeColors(progressColor)
+        mProgress?.setStyle(CircularProgressDrawable.DEFAULT)
+        mCircleView?.setImageDrawable(mProgress)
 
 
 
@@ -460,28 +467,49 @@ class ProgressButton @JvmOverloads constructor(
 
     fun startAnimation() {
 
-        isStartAnim = true
-        isEnabled = false
-        animationListener?.startAnimationListener()
+        endAnimation()
 
-        widthAnimator(progressButton!!, initialWidth, 0).start()
+        if ( progressButton?.visibility == View.VISIBLE){
+            isStartAnim = true
+
+            animationListener?.startAnimationListener()
+            resetAnimator()
+            animator=  widthAnimator(progressButton!!, initialWidth, 0)
+            animator?.start()
+        }
 
 
     }
 
     fun endAnimation() {
-        isStartAnim = false
-        reset()
-        mCircleView?.visibility = View.GONE
-        contentLoadingProgressBar?.visibility=View.GONE
-        isEnabled = true
-        progressButton?.visibility = View.VISIBLE
+        if(progressButton?.visibility!=View.VISIBLE)
+        {
+            progressButton?.visibility = View.VISIBLE
+            isStartAnim = false
+            reset()
+            mCircleView?.visibility = View.GONE
+            contentLoadingProgressBar?.visibility = View.GONE
 
-        widthAnimator(progressButton!!, 0, initialWidth).start()
-        animationListener?.endAnimationListener()
+
+
+            progressButton?.updateWidth(initialWidth)
+
+
+            resetAnimator()
+            animator=     widthAnimator(progressButton!!, 0, initialWidth)
+            animator?.start()
+            animationListener?.endAnimationListener()
+        }
 
     }
 
+    fun  resetAnimator()
+    {
+        if (animator != null) {
+            animator!!.removeAllUpdateListeners()
+            animator!!.cancel()
+        }
+    }
 
     internal fun widthAnimator(view: View, initial: Int, final: Int) =
         ValueAnimator.ofInt(initial, final).apply {
@@ -490,7 +518,7 @@ class ProgressButton @JvmOverloads constructor(
                     view.text = ""
                 } else if (animation.animatedValue as Int >= textWidth + dp2px(25f) && !(view as MaterialButton).text.isNotEmpty()) {
                     if(progressText!=null)
-                    view.text = progressText
+                        view.text = progressText
                 }
 
                 view.updateWidth(animation.animatedValue as Int)
@@ -504,47 +532,38 @@ class ProgressButton @JvmOverloads constructor(
 
 
                     }
+                    else
+                    {
+                        this@ProgressButton.isEnabled=false
+                    }
 
 
                 }
             })
 
-            duration = 400
+            duration =
+                400
+
+
 
         }
 
     fun progressbarAnim() {
-        if (animator != null) {
-            animator!!.removeAllUpdateListeners()
-            animator!!.cancel()
-        }
+        // resetAnimator()
         if (style == Style.circleBar)
         {
 
             mCircleView?.visibility = View.VISIBLE
+            mProgress?.start()
 
 
 
-            animator = ValueAnimator.ofInt(0, 255)
-            animator!!.duration = 200
-            animator?.addUpdateListener(ValueAnimator.AnimatorUpdateListener { valueAnimator ->
-
-                mCircleView?.alpha = valueAnimator.animatedValue as Int / 255f
-
-
-            })
-            animator?.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    // done
-                    mProgress?.start()
-
-
-                }
-            })
-            animator?.start()
         } else {
             contentLoadingProgressBar?.visibility=View.VISIBLE
-           // contentLoadingProgressBar?.show()
+
+
+            this.isEnabled=false
+            // contentLoadingProgressBar?.show()
         }
     }
 
@@ -587,7 +606,7 @@ class ProgressButton @JvmOverloads constructor(
         circleBar, progressBar, back, shrieked
     }
 
-   private enum class LayoutDirection {
+    private enum class LayoutDirection {
         ltr, rtl
     }
 
