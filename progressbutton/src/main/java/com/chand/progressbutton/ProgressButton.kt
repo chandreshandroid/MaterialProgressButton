@@ -43,7 +43,7 @@ class ProgressButton @JvmOverloads constructor(
     var isStartAnim = false
     private var initialWidth: Int = 0
     private var finalWidth: Int = 0
-    private var  mLastClickTime: Long = 0
+    private var mLastClickTime: Long = 0
     var progressText: String? = null
         set(value) {
             field = value
@@ -65,7 +65,7 @@ class ProgressButton @JvmOverloads constructor(
 
             mCircleView?.setBackgroundColor(value)
         }
-    var progressColor: Int=Color.BLACK
+    var progressColor: Int = Color.BLACK
         set(value) {
             field = value
             if (style == Style.circleBar)
@@ -225,13 +225,10 @@ class ProgressButton @JvmOverloads constructor(
     private var layoutDirection = LayoutDirection.ltr
         set(value) {
             field = value
-            if(value==LayoutDirection.ltr)
-            {
-                progressButton?.layoutDirection=View.LAYOUT_DIRECTION_LTR
-            }
-            else
-            {
-                progressButton?.layoutDirection=View.LAYOUT_DIRECTION_RTL
+            if (value == LayoutDirection.ltr) {
+                progressButton?.layoutDirection = View.LAYOUT_DIRECTION_LTR
+            } else {
+                progressButton?.layoutDirection = View.LAYOUT_DIRECTION_RTL
             }
         }
 
@@ -248,41 +245,48 @@ class ProgressButton @JvmOverloads constructor(
         )
 
         this.style = Style.values()[pa.getInt(R.styleable.ProgressButton_p_style, 0)]
-        this.layoutDirection = LayoutDirection.values()[pa.getInt(R.styleable.ProgressButton_p_layoutDirection, 0)]
+        this.layoutDirection =
+            LayoutDirection.values()[pa.getInt(R.styleable.ProgressButton_p_layoutDirection, 0)]
 
 
-        this.progressBGColor = pa.getColor(R.styleable.ProgressButton_p_progressBGColor, Color.WHITE)
+        this.progressBGColor =
+            pa.getColor(R.styleable.ProgressButton_p_progressBGColor, Color.WHITE)
         this.progressColor = pa.getColor(R.styleable.ProgressButton_p_progressColor, Color.BLACK)
         this.isArrowVisible = pa.getBoolean(R.styleable.ProgressButton_p_arrowVisible, true)
 
-        this.bgColor = pa.getColor(R.styleable.ProgressButton_p_bgColor, ContextCompat.getColor(context, R.color.colorSecondary))
+        this.bgColor = pa.getColor(
+            R.styleable.ProgressButton_p_bgColor,
+            ContextCompat.getColor(context, R.color.colorSecondary)
+        )
         this.progressText = pa.getString(R.styleable.ProgressButton_p_text)
 
 
         this.textColor = pa.getColor(R.styleable.ProgressButton_p_textColor, Color.BLACK)
         this.backgroundTint = pa.getColor(
             R.styleable.ProgressButton_p_backgroundTint,
-            ContextCompat.getColor(context,R.color.colorSecondaryVariant)
+            ContextCompat.getColor(context, R.color.colorSecondaryVariant)
         )
         this.iconTint = pa.getColor(R.styleable.ProgressButton_p_iconTint, Color.WHITE)
         this.strokeColor = pa.getColor(
             R.styleable.ProgressButton_p_strokeColor,
-            ContextCompat.getColor(context,android.R.color.transparent)
+            ContextCompat.getColor(context, android.R.color.transparent)
         )
         this.rippleColor = pa.getColor(
             R.styleable.ProgressButton_p_rippleColor,
-            ContextCompat.getColor(context,R.color.ripple_material_light)
+            ContextCompat.getColor(context, R.color.ripple_material_light)
         )
 //            backgroundTintMode=pa.get(R.styleable.ProgressButton_p_backgroundTintMode,0)
         this.btn_elevation = pa.getFloat(R.styleable.ProgressButton_p_elevation, 0f)
         this.iconSize = pa.getDimensionPixelSize(R.styleable.ProgressButton_p_iconSize, -1)
-        this.textSize = pa.getDimensionPixelSize(R.styleable.ProgressButton_p_textSize, -1).toFloat()
+        this.textSize =
+            pa.getDimensionPixelSize(R.styleable.ProgressButton_p_textSize, -1).toFloat()
         this.strokeWidth = pa.getDimensionPixelSize(R.styleable.ProgressButton_p_strokeWidth, -1)
         this.iconPadding = pa.getDimensionPixelSize(R.styleable.ProgressButton_p_iconPadding, -1)
         this.cornerRadius = pa.getDimensionPixelSize(R.styleable.ProgressButton_p_cornerRadius, -1)
         this.icon = pa.getDrawable(R.styleable.ProgressButton_p_icon)
         this.capsText = pa.getBoolean(R.styleable.ProgressButton_p_capsText, false)
-        this.iconGravity = pa.getInt(R.styleable.ProgressButton_p_iconGravity, MaterialButton.ICON_GRAVITY_START)
+        this.iconGravity =
+            pa.getInt(R.styleable.ProgressButton_p_iconGravity, MaterialButton.ICON_GRAVITY_START)
         this.font = pa.getString(R.styleable.ProgressButton_p_fontFamily)
 
         pa.recycle()
@@ -292,8 +296,8 @@ class ProgressButton @JvmOverloads constructor(
 
 
 
-        progressButton?.setOnClickListener{
-            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+        progressButton?.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
                 return@setOnClickListener
             }
             mLastClickTime = SystemClock.elapsedRealtime()
@@ -328,14 +332,13 @@ class ProgressButton @JvmOverloads constructor(
 
 
 
-        this.postDelayed ({
-            if(initialWidth==0)
-                initialWidth =parentWidth
+        this.postDelayed({
+            if (initialWidth == 0)
+                initialWidth = parentWidth
 
-        },50)
+        }, 50)
 
     }
-
 
 
     fun setOnAnimationListener(animationListener: AnimationListener) {
@@ -345,7 +348,7 @@ class ProgressButton @JvmOverloads constructor(
 
     private fun setSizeView() {
 
-        this.post{
+        this.post {
 
 
             leftPadding = paddingLeft
@@ -366,20 +369,26 @@ class ProgressButton @JvmOverloads constructor(
             progressButton?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
 
 
-            val barParams1 = FrameLayout.LayoutParams((height * 0.80).toInt(), (height * 0.80).toInt())
+            val barParams1 =
+                FrameLayout.LayoutParams((height * 0.80).toInt(), (height * 0.80).toInt())
             barParams1.gravity = Gravity.CENTER
             mCircleView?.layoutParams = barParams1
             contentLoadingProgressBar?.layoutParams = barParams1
 
             mCircleView?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
-            contentLoadingProgressBar?.setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
+            contentLoadingProgressBar?.setPadding(
+                leftPadding,
+                topPadding,
+                rightPadding,
+                bottomPadding
+            )
 
 
             if (height > dp2px(75.0f))
                 mProgress?.setStyle(CircularProgressDrawable.LARGE)
 
         }
-        addOnLayoutChangeListener(object:View.OnLayoutChangeListener{
+        addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
             override fun onLayoutChange(
                 v: View?,
                 left: Int,
@@ -392,14 +401,14 @@ class ProgressButton @JvmOverloads constructor(
                 oldBottom: Int
             ) {
                 // Preventing extra work because method will be called many times.
-                if(height == (bottom - top))
+                if (height == (bottom - top))
                     return;
 
 
                 setSizeView()
 
             }
-        } )
+        })
 
     }
 
@@ -433,13 +442,13 @@ class ProgressButton @JvmOverloads constructor(
     }
 
     private fun createContentLoadingProgressBar() {
-        contentLoadingProgressBar = ProgressBar(context,null,android.R.attr.progressBarStyleLarge)
+        contentLoadingProgressBar = ProgressBar(context, null, android.R.attr.progressBarStyleLarge)
 
 
         contentLoadingProgressBar?.isIndeterminate = true
         contentLoadingProgressBar?.indeterminateTintList = ColorStateList.valueOf(progressColor)
 
-        contentLoadingProgressBar?.visibility=View.GONE
+        contentLoadingProgressBar?.visibility = View.GONE
 
         val barParams =
             FrameLayout.LayoutParams(dp2px(40f), dp2px(40f))
@@ -453,9 +462,12 @@ class ProgressButton @JvmOverloads constructor(
 
 
         val contextWrapper = ContextThemeWrapper(context, R.style.ProgressTheme)
-        progressButton = MaterialButton(contextWrapper,null,R.style.Widget_MaterialComponents_Button_OutlinedButton)
+        progressButton = MaterialButton(
+            contextWrapper,
+            null,
+            R.style.Widget_MaterialComponents_Button_OutlinedButton
+        )
         progressButton?.gravity = Gravity.CENTER_VERTICAL or Gravity.CENTER_HORIZONTAL
-
 
 
         val barParams =
@@ -469,45 +481,39 @@ class ProgressButton @JvmOverloads constructor(
 
         endAnimation()
 
-        if ( progressButton?.visibility == View.VISIBLE){
-            isStartAnim = true
 
-            animationListener?.startAnimationListener()
-            resetAnimator()
-            animator=  widthAnimator(progressButton!!, initialWidth, 0)
-            animator?.start()
-        }
+        isStartAnim = true
+
+        animationListener?.startAnimationListener()
+
+        animator = widthAnimator(progressButton!!, initialWidth, 0)
+        animator?.start()
+
 
 
     }
 
     fun endAnimation() {
-        if(progressButton?.visibility!=View.VISIBLE)
-        {
-            progressButton?.visibility = View.VISIBLE
-            isStartAnim = false
-            reset()
-            mCircleView?.visibility = View.GONE
-            contentLoadingProgressBar?.visibility = View.GONE
+        mCircleView?.visibility = View.GONE
+        contentLoadingProgressBar?.visibility = View.GONE
+        resetAnimator()
+        progressButton?.visibility = View.VISIBLE
+        isStartAnim = false
+        reset()
 
+        progressButton?.updateWidth(initialWidth)
+        animator = widthAnimator(progressButton!!, 0, initialWidth)
+        animator?.start()
+        animationListener?.endAnimationListener()
 
-
-            progressButton?.updateWidth(initialWidth)
-
-
-            resetAnimator()
-            animator=     widthAnimator(progressButton!!, 0, initialWidth)
-            animator?.start()
-            animationListener?.endAnimationListener()
-        }
 
     }
 
-    fun  resetAnimator()
-    {
+    fun resetAnimator() {
         if (animator != null) {
-            animator!!.removeAllUpdateListeners()
+            animator!!.removeAllListeners()
             animator!!.cancel()
+            progressButton?.clearAnimation()
         }
     }
 
@@ -517,7 +523,7 @@ class ProgressButton @JvmOverloads constructor(
                 if (animation.animatedValue as Int <= textWidth + dp2px(25f) && (view as MaterialButton).text.isNotEmpty()) {
                     view.text = ""
                 } else if (animation.animatedValue as Int >= textWidth + dp2px(25f) && !(view as MaterialButton).text.isNotEmpty()) {
-                    if(progressText!=null)
+                    if (progressText != null)
                         view.text = progressText
                 }
 
@@ -531,10 +537,8 @@ class ProgressButton @JvmOverloads constructor(
                         progressbarAnim()
 
 
-                    }
-                    else
-                    {
-                        this@ProgressButton.isEnabled=false
+                    } else {
+                        this@ProgressButton.isEnabled = false
                     }
 
 
@@ -545,24 +549,21 @@ class ProgressButton @JvmOverloads constructor(
                 400
 
 
-
         }
 
     fun progressbarAnim() {
         // resetAnimator()
-        if (style == Style.circleBar)
-        {
+        if (style == Style.circleBar) {
 
             mCircleView?.visibility = View.VISIBLE
             mProgress?.start()
 
 
-
         } else {
-            contentLoadingProgressBar?.visibility=View.VISIBLE
+            contentLoadingProgressBar?.visibility = View.VISIBLE
 
 
-            this.isEnabled=false
+            this.isEnabled = false
             // contentLoadingProgressBar?.show()
         }
     }
@@ -594,11 +595,19 @@ class ProgressButton @JvmOverloads constructor(
     }
 
     fun px2dp(px: Float): Float {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, this.resources.displayMetrics)
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_PX,
+            px,
+            this.resources.displayMetrics
+        )
     }
 
     fun dp2px(dp: Float): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), this.resources.displayMetrics)
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            this.resources.displayMetrics
+        )
             .toInt()
     }
 
