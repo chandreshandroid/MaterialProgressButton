@@ -18,15 +18,11 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
 import androidx.core.content.res.ResourcesCompat
 
-import android.opengl.ETC1.getHeight
-import android.view.*
-import android.opengl.ETC1.getHeight
-import androidx.core.os.HandlerCompat.postDelayed
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.*
+
 import android.os.SystemClock
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 
 
 class ProgressButton @JvmOverloads constructor(
@@ -335,7 +331,7 @@ class ProgressButton @JvmOverloads constructor(
         this.postDelayed({
             if (initialWidth == 0)
                 initialWidth = parentWidth
-
+            setSizeView()
         }, 50)
 
     }
@@ -402,7 +398,7 @@ class ProgressButton @JvmOverloads constructor(
             ) {
                 // Preventing extra work because method will be called many times.
                 if (height == (bottom - top))
-                    return;
+                    return
 
 
                 setSizeView()
@@ -422,11 +418,13 @@ class ProgressButton @JvmOverloads constructor(
 
     private fun createCircleProgressView() {
         mCircleView = CircleImageView(context, progressBGColor)
+        if(!isInEditMode()) {
+            mProgress = CircularProgressDrawable(context)
+            mProgress?.setColorSchemeColors(progressColor)
+            mProgress?.setStyle(CircularProgressDrawable.DEFAULT)
+            mCircleView?.setImageDrawable(mProgress)
+        }
 
-        mProgress = CircularProgressDrawable(context)
-        mProgress?.setColorSchemeColors(progressColor)
-        mProgress?.setStyle(CircularProgressDrawable.DEFAULT)
-        mCircleView?.setImageDrawable(mProgress)
 
 
 

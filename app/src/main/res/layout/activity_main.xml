@@ -34,7 +34,7 @@
                                              app:p_textColor="@color/white"
                                              app:p_cornerRadius="5dp"
                                              app:p_fontFamily="brandon_reg_it"
-                                             app:p_style="progressBar"
+                                             app:p_style="circleBar"
 
 
                                              android:id="@+id/pb"
@@ -62,7 +62,8 @@
 
     ></com.chand.progressbutton.ProgressButton>
     <com.chand.progressbutton.ProgressButton android:layout_width="250dp"
-                                             android:layout_height="40dp"
+                                             android:layout_height="wrap_content"
+            android:minHeight="50dp"
                                              android:layout_gravity="center"
                                              app:p_backgroundTint="@color/colorAccent"
                                              app:p_text="@string/label"
@@ -106,7 +107,7 @@
     ></com.chand.progressbutton.ProgressButton>
 
     <com.chand.progressbutton.ProgressButton android:layout_width="250dp"
-                                             android:layout_height="wrap_content"
+                                             android:layout_height="50dp"
                                              android:layout_gravity="center"
                                              app:p_backgroundTint="@color/colorAccent"
                                              app:p_text="@string/label"
@@ -163,6 +164,7 @@
                                              app:p_rippleColor="@color/colorPrimaryVariant"
                                              app:p_layoutDirection="ltr"
                                              app:p_textSize="14sp"
+
                                              android:id="@+id/pb6"/>
 
 </LinearLayout>
